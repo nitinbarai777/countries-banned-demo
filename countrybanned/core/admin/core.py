@@ -15,9 +15,9 @@ class CountryAdmin(admin.ModelAdmin):
 
     search_fields = ('name',)
 
-    list_display = ('name', 'c_index')
+    list_display = ('name',)
 
-    list_filter = ('name', 'c_index')
+    list_filter = ('name',)
 
     ordering = ('id',)
 
