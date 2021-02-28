@@ -11,7 +11,7 @@
                 <!-- Render a li element for every entry in the computed Countries array. -->
                 <li v-if="countriesComputed == ''">No country found.</li>
                 <li v-for="country in countriesComputed">
-                    <label class="container">[[country]]
+                    <label class="labelContainer">[[country]]
                     <input type="checkbox" v-bind:value='country' :name="country" :id="country"
                            v-model="countriesList">
                       <span class="checkmark"></span>
@@ -25,7 +25,7 @@
 
             <h3>Select banned countries</h3>
             <p>
-                <label class="container">Select All
+                <label class="labelContainer">Select All
                 <input type="checkbox" @change="selectAllContries($event)">
                   <span class="checkmark"></span>
                 </label>
@@ -42,8 +42,8 @@
             <ul>
                 <!-- Create a binding between the checkCountry model and the selCountries -->
                 <li v-for="(country, idx) in json_countries" v-if="countryShow">
-                    <label class="container">[[country.name]]
-                    <input type="checkbox" v-bind:value='country.name' :name="country.code" :id="country.code"
+                    <label class="labelContainer">[[country.name]]
+                    <input type="checkbox" v-bind:value='country.name' :name="country.c_index" :id="country.c_index"
                            v-model="countriesList">
                       <span class="checkmark"></span>
                     </label>
@@ -54,8 +54,8 @@
                     <h3>[[idx]]</h3>
                     <ul>
                         <li v-for="(country, idx) in countries">
-                            <label class="container">[[country.name]]
-                            <input type="checkbox" :value="country.name" :name="country.code" :id="country.code" v-model="countriesList">
+                            <label class="labelContainer">[[country.name]]
+                            <input type="checkbox" :value="country.name" :name="country.c_index" :id="country.c_index" v-model="countriesList">
                             <span class="checkmark"></span>
                             </label>
                         </li>

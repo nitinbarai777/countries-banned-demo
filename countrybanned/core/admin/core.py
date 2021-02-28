@@ -9,7 +9,6 @@ class CountryAdmin(admin.ModelAdmin):
         (_('Details'), {
             'fields': (
                 'name',
-                'c_index',
             ),
         }),
     )

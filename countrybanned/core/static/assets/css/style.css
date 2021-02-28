@@ -34,8 +34,7 @@ ul {
 li {
     float: left;
     padding: 6px;
-    overflow: hidden;
-    width: 15%;
+    width: 25%;
 }
 
 li a {
@@ -64,8 +63,8 @@ ul, h1, h5, h3, p {
     font-size: 16px;
 }
 
-/* The container */
-.container {
+/* The labelContainer */
+.labelContainer {
     display: block;
     position: relative;
     padding-left: 35px;
@@ -79,7 +78,7 @@ ul, h1, h5, h3, p {
 }
 
 /* Hide the browser's default checkbox */
-.container input {
+.labelContainer input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -98,12 +97,12 @@ ul, h1, h5, h3, p {
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.labelContainer:hover input ~ .checkmark {
     background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.labelContainer input:checked ~ .checkmark {
     background-color: #2196F3;
 }
 
@@ -115,12 +114,12 @@ ul, h1, h5, h3, p {
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
+.labelContainer input:checked ~ .checkmark:after {
     display: block;
 }
 
 /* Style the checkmark/indicator */
-.container .checkmark:after {
+.labelContainer .checkmark:after {
     left: 9px;
     top: 5px;
     width: 5px;
