@@ -29,7 +29,7 @@ class CountryViewSet(viewsets.ModelViewSet, viewsets.GenericViewSet):
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(queryset, many=True)
+        serializer = self.get_serializer(queryset.order_by('-name'), many=True)
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):

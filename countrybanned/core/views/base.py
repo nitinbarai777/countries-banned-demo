@@ -17,7 +17,7 @@ from countrybanned.core.models.core import Country
 
 def home(request):
     from countrybanned.core.views.core import CountrySerializer
-    countries = Country.objects.all()
+    countries = Country.objects.order_by('name').all()
     context = {'json_countries': CountrySerializer(countries, many=True).data,}
     return render(request, 'banned-countries.html', context)
 

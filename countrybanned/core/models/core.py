@@ -24,4 +24,5 @@ class Country(Base):
 def pre_save_Country(sender, instance, **kwargs):
 
     print('===>>>> pre_save_Country')
+    instance.name = instance.name.capitalize()
     instance.c_index = instance.name[0].capitalize()
