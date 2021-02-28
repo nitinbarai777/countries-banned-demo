@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static sekizai_tags %}
+{% block content %}
+    <div class="container-fluid">
+        <div id="country-demo" v-cloak>
+            <h1 class="center">Banned countries</h1>
+
+            <h3>Banned</h3>
+
+            <ul>
+                <!-- Render a li element for every entry in the computed Countries array. -->
+                <li v-if="countriesComputed == ''">No country found.</li>
+                <li v-for="country in countriesComputed">
+                    <label class="container">[[country]]
+                    <input type="checkbox" v-bind:value='country' :name="country" :id="country"
+                           v-model="countriesList">
+                      <span class="checkmark"></span>
+                    </label>
+                </li>
+            </ul>
+
+            <h5 v-if="countriesComputed != ''">
+                <button v-on:click="clearSelectedCountries" class="button">Reset</button>
+            </h5>
+
+            <h3>Select banned countries</h3>
+            <p>
+                <label class="container">Select All
+                <input type="checkbox" @change="selectAllContries($event)">
+                  <span class="checkmark"></span>
+                </label>
+            </p>
+
+            <ul>
+                <li v-for="filter in filters">
+                    <a href="javascript:void(0);" v-on:click="filterCountries(filter);">
+                        <span>[[ filter ]]</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul>
+                <!-- Create a binding between the checkCountry model and the selCountries -->
+                <li v-for="(country, idx) in json_countries" v-if="countryShow">
+                    <label class="container">[[country.name]]
+                    <input type="checkbox" v-bind:value='country.name' :name="country.code" :id="country.code"
+                           v-model="countriesList">
+                      <span class="checkmark"></span>
+                    </label>
+                </li>
+
+                <!-- Create a binding for filter countries -->
+                <li v-for="(countries, idx) in filterCountriesList" v-if="countryFilterShow" class="filterCountriesList">
+                    <h3>[[idx]]</h3>
+                    <ul>
+                        <li v-for="(country, idx) in countries">
+                            <label class="container">[[country.name]]
+                            <input type="checkbox" :value="country.name" :name="country.code" :id="country.code" v-model="countriesList">
+                            <span class="checkmark"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>
+                <p v-if="successMesssage">Successfully saved!</p>
+                <button v-on:click="saveSelectedCountries" class="button">Save</button>
+            </h5>
+        </div>
+    </div>
+    {% addtoblock "js" %}
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        {{ json_countries | json_script:"countries-data" }}
+        <script>
+            var country_demo = new Vue({
+                delimiters: ["[[", "]]"],
+                el: '#country-demo',
+                data: {
+                    countriesList: [],
+                    filterCountriesList: {},
+                    countryShow: true,
+                    countryFilterShow: false,
+                    successMesssage: false,
+                    json_countries: JSON.parse(document.getElementById('countries-data').textContent),
+                    countries: [
+                        {"name": "Afghanistan", "c_index": "A"}, {"name": "Australia", "c_index": "A"}, {"name": "Austria", "c_index": "A"},
+                        {"name": "Bangladesh", "c_index": "B"}, {"name": "Burkina Faso", "c_index": "B"}, {"name": "Burundi", "c_index": "B"},
+                        {"name": "Canada", "c_index": "C"}, {"name": "Cyprus", "c_index": "C"}, {"name": "Czech Republic", "c_index": "C"},
+                        {"name": "Denmark", "c_index": "D"}, {"name": "Djibouti", "c_index": "D"}, {"name": "Dominica", "c_index": "D"},
+                        {"name": "Ecuador", "c_index": "E"}, {"name": "Egypt", "c_index": "E"}, {"name": "El Salvador", "c_index": "E"},
+                        {"name": "Falkland Islands (Malvinas)", "c_index": "F"}, {"name": "Faroe Islands", "c_index": "F"}, {"name": "Fiji", "c_index": "F"},
+                        {"name": "Gabon", "c_index": "G"}, {"name": "Gambia", "c_index": "G"}, {"name": "Georgia", "c_index": "G"},
+                        {"name": "Haiti", "c_index": "H"}, {"name": "Heard Island and Mcdonald Islands", "c_index": "H"}, {"name": "Holy See (Vatican City State)", "c_index": "H"},
+                        {"name": "Iceland", "c_index": "I"}, {"name": "India", "c_index": "I"}, {"name": "Indonesia", "c_index": "I"},
+                        {"name": "Jamaica", "c_index": "J"}, {"name": "Japan", "c_index": "J"}, {"name": "Jersey", "c_index": "J"},
+                        {"name": "Kazakhstan", "c_index": "K"}, {"name": "Kenya", "c_index": "K"}, {"name": "Kiribati", "c_index": "K"},
+                        {"name": "Lao PeopleS Democratic Republic", "c_index": "L"}, {"name": "Latvia", "c_index": "L"}, {"name": "Lebanon", "c_index": "L"},
+                        {"name": "Macao", "c_index": "M"}, {"name": "Macedonia, The Former Yugoslav Republic of", "c_index": "M"}, {"name": "Madagascar", "c_index": "M"},
+                        {"name": "Namibia", "c_index": "N"}, {"name": "Nauru", "c_index": "N"}, {"name": "Nepal", "c_index": "N"},
+                        {"name": "Oman", "c_index": "O"},
+                        {"name": "Pakistan", "c_index": "P"}, {"name": "Palau", "c_index": "P"}, {"name": "Palestinian Territory, Occupied", "c_index": "P"},
+                        {"name": "Qatar", "c_index": "Q"},
+                        {"name": "Reunion", "c_index": "R"}, {"name": "Romania", "c_index": "R"}, {"name": "Russian Federation", "c_index": "R"},
+                        {"name": "Saint Helena", "c_index": "S"}, {"name": "Saint Kitts and Nevis", "c_index": "S"}, {"name": "Saint Lucia", "c_index": "S"},
+                        {"name": "Taiwan, Province of China", "c_index": "T"}, {"name": "Tajikistan", "c_index": "T"}, {"name": "Tanzania, United Republic of", "c_index": "T"},
+                        {"name": "Uganda", "c_index": "U"}, {"name": "Ukraine", "c_index": "U"}, {"name": "United Arab Emirates", "c_index": "U"},
+                        {"name": "Vanuatu", "c_index": "V"}, {"name": "Venezuela", "c_index": "V"}, {"name": "Viet Nam", "c_index": "V"},
+                        {"name": "Wallis and Futuna", "c_index": "W"}, {"name": "Western Sahara", "c_index": "W"},
+                        {"name": "Yemen", "c_index": "Y"},
+                        {"name": "Zambia", "c_index": "Z"}, {"name": "Zimbabwe", "c_index": "Z"}
+                    ],
+                    filters: ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "YZ"],
+                },
+                beforeMount() {
+                    var countriesComputedStorage = localStorage.getItem("countriesComputed");
+                    if (countriesComputedStorage) {
+                        this.countriesList = JSON.parse(countriesComputedStorage);
+                    }
+                },
+                computed: {
+                    countriesComputed() {
+                        return this.countriesList;
+                    }
+                },
+                methods: {
+                    filterCountries(filter) {
+                        this.filterCountriesList = {};
+                        this.filterCountriesList[filter.charAt(0)] = this.json_countries.filter( country => (country.c_index == filter.charAt(0)) );
+                        this.filterCountriesList[filter.charAt(1)] = this.json_countries.filter( country => (country.c_index == filter.charAt(1)) );
+                        this.filterCountriesList[filter.charAt(2)] = this.json_countries.filter( country => (country.c_index == filter.charAt(2)) );
+                        this.countryShow = false;
+                        this.countryFilterShow = true;
+                    },
+                    selectAllContries($event) {
+                        const checked = $event.target.checked;
+                        var selected = [];
+                        if (checked) {
+                            this.json_countries.forEach(function (country) {
+                                selected.push(country.name);
+                            });
+                        }
+                        this.countriesList = selected;
+                    },
+                    saveSelectedCountries() {
+                        localStorage.setItem("countriesComputed", JSON.stringify(this.countriesList));
+                        this.successMesssage = true;
+
+                    },
+                    clearSelectedCountries() {
+                        localStorage.removeItem("countriesComputed");
+                        this.countriesList = [];
+                    },
+                }
+            })
+        </script>
+    {% endaddtoblock %}
+{% endblock content %}
